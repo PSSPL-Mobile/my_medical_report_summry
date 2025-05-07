@@ -1,27 +1,3 @@
-/*
-import 'package:equatable/equatable.dart';
-import 'package:file_picker/file_picker.dart';
-
-// Events for report management
-abstract class ReportEvent extends Equatable {
-  const ReportEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
-// Load all reports
-class LoadReports extends ReportEvent {}
-
-// Upload a new report
-class UploadReport extends ReportEvent {
-  final PlatformFile file;
-
-  const UploadReport(this.file);
-
-  @override
-  List<Object> get props => [file];
-}*/
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:my_medical_report_summry/models/report.dart';

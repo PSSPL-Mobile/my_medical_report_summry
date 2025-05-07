@@ -29,7 +29,7 @@ class UploadReportScreen extends StatelessWidget {
                 Navigator.of(context).pop();
               } else if (state is UploadFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Upload Failed: ${state.error}')),
+                  SnackBar(content: Text(state.error)),
                 );
               }
             },

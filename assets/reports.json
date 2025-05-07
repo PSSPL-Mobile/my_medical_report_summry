@@ -6,8 +6,8 @@
     "suggestions": "Monitor for infections, stay hydrated.",
     "date": "2024-01-15",
     "metrics": {
-      "hemoglobin": 13.5,
-      "wbc_count": 8.2
+      "hemoglobin": "13.5",
+      "wbc_count": "8.2"
     }
   },
   {
@@ -17,9 +17,9 @@
     "suggestions": "Adopt a low-fat diet, exercise regularly.",
     "date": "2024-02-10",
     "metrics": {
-      "hemoglobin": 13.7,
-      "ldl_cholesterol": 150,
-      "triglycerides": 200
+      "hemoglobin": "13.7",
+      "ldl_cholesterol": "150",
+      "triglycerides": "200"
     }
   },
   {
@@ -29,9 +29,9 @@
     "suggestions": "Reduce salt intake, practice stress management.",
     "date": "2024-03-05",
     "metrics": {
-      "hemoglobin": 13.4,
-      "systolic_bp": 135,
-      "diastolic_bp": 85
+      "hemoglobin": "13.4",
+      "systolic_bp": "135",
+      "diastolic_bp": "85"
     }
   },
   {
@@ -41,8 +41,8 @@
     "suggestions": "Limit sugar intake, consult a diabetologist.",
     "date": "2024-04-12",
     "metrics": {
-      "hemoglobin": 13.6,
-      "fasting_glucose": 110
+      "hemoglobin": "13.6",
+      "fasting_glucose": "110"
     }
   },
   {
@@ -52,8 +52,8 @@
     "suggestions": "Consult an endocrinologist, consider medication.",
     "date": "2024-05-20",
     "metrics": {
-      "hemoglobin": 13.2,
-      "tsh": 5.5
+      "hemoglobin": "13.2",
+      "tsh": "5.5"
     }
   },
   {
@@ -63,8 +63,8 @@
     "suggestions": "Maintain hydration, avoid excessive protein.",
     "date": "2024-06-15",
     "metrics": {
-      "hemAlgebra": 13.5,
-      "creatinine": 0.9
+      "hemAlgebra": "13.5",
+      "creatinine": "0.9"
     }
   },
   {
@@ -74,8 +74,8 @@
     "suggestions": "Avoid alcohol, consult a hepatologist.",
     "date": "2024-07-10",
     "metrics": {
-      "hemoglobin": 13.8,
-      "alt": 60
+      "hemoglobin": "13.8",
+      "alt": "60"
     }
   },
   {
@@ -85,8 +85,8 @@
     "suggestions": "Continue regular health checkups.",
     "date": "2024-08-05",
     "metrics": {
-      "hemoglobin": 13.6,
-      "rbc_count": 4.8
+      "hemoglobin": "13.6",
+      "rbc_count": "4.8"
     }
   },
   {
@@ -96,8 +96,8 @@
     "suggestions": "Increase sun exposure, take vitamin D supplements.",
     "date": "2024-09-12",
     "metrics": {
-      "hemoglobin": 13.4,
-      "vitamin_d": 20
+      "hemoglobin": "13.4",
+      "vitamin_d": "20"
     }
   },
   {
@@ -107,9 +107,9 @@
     "suggestions": "Maintain current lifestyle, monitor weekly.",
     "date": "2024-10-08",
     "metrics": {
-      "hemoglobin": 13.7,
-      "systolic_bp": 120,
-      "diastolic_bp": 80
+      "hemoglobin": "13.7",
+      "systolic_bp": "120",
+      "diastolic_bp": "80"
     }
   },
   {
@@ -119,8 +119,8 @@
     "suggestions": "Continue balanced diet, regular exercise.",
     "date": "2024-11-15",
     "metrics": {
-      "hemoglobin": 13.5,
-      "hba1c": 5.8
+      "hemoglobin": "13.5",
+      "hba1c": "5.8"
     }
   },
   {
@@ -130,8 +130,8 @@
     "suggestions": "Repeat test in 3 months, consult doctor.",
     "date": "2024-12-20",
     "metrics": {
-      "hemoglobin": 13.3,
-      "tsh": 4.8
+      "hemoglobin": "13.3",
+      "tsh": "4.8"
     }
   },
   {
@@ -141,9 +141,9 @@
     "suggestions": "Increase healthy fats, continue exercise.",
     "date": "2025-01-10",
     "metrics": {
-      "hemoglobin": 13.6,
-      "hdl_cholesterol": 35,
-      "ldl_cholesterol": 100
+      "hemoglobin": "13.6",
+      "hdl_cholesterol": "35",
+      "ldl_cholesterol": "100"
     }
   },
   {
@@ -153,8 +153,8 @@
     "suggestions": "Maintain fluid intake, avoid NSAIDs.",
     "date": "2025-01-15",
     "metrics": {
-      "hemoglobin": 13.5,
-      "creatinine": 0.8
+      "hemoglobin": "13.5",
+      "creatinine": "0.8"
     }
   },
   {
@@ -164,8 +164,8 @@
     "suggestions": "Include iron-rich foods, consider supplements.",
     "date": "2025-01-20",
     "metrics": {
-      "hemoglobin": 13.4,
-      "serum_iron": 60
+      "hemoglobin": "13.4",
+      "serum_iron": "60"
     }
   }
 ]

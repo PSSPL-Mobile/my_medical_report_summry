@@ -16,7 +16,11 @@ class UploadCubit extends Cubit<UploadState> {
     try {
       Map<String, dynamic> reportData = await reportService.analyzeReport(file);
       var report = _addReport(reportData);
-      emit(UploadSuccess(report));
+      if (report == null) {
+        emit(UploadFailure("No medical metrics could be extracted"));
+      } else {
+        emit(UploadSuccess(report));
+      }
     } catch (e) {
       emit(UploadFailure(e.toString()));
     }
@@ -26,7 +30,7 @@ class UploadCubit extends Cubit<UploadState> {
     return _reports;
   }
 
-  Report _addReport(Map<String, dynamic> reportData) {
+  Report? _addReport(Map<String, dynamic> reportData) {
     var report = Report(
       id: reportData['id'] as int,
       title: reportData['title'] as String,
@@ -35,7 +39,12 @@ class UploadCubit extends Cubit<UploadState> {
       date: reportData['date'] as String,
       metrics: Map<String, dynamic>.from(reportData['metrics'] as Map),
     );
-    _reports.add(report);
-    return report;
+    if (report.metrics.isNotEmpty) {
+      _reports.add(report);
+      reportService.saveReportsToPrefs(report);
+      return report;
+    } else {
+      return null;
+    }
   }
 }
