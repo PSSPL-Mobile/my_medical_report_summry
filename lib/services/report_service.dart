@@ -12,4 +12,6 @@ abstract class ReportService {
   Future<List<Report>?> loadReportsFromPrefs();
 
   Future<void> saveReportsToPrefs(Report report);
+
+  Future<List<String>> generateTips(String prompt);
 }

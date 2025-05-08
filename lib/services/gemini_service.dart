@@ -15,14 +15,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 class GeminiService implements ReportService {
   final Dio _dio = Dio();
 
+  var endpoint = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash-001:generateContent';
+  var apiKey = "";
+
+  GeminiService() {
+    // Real Gemini API integration (Google AI Studio)
+    apiKey = dotenv.env['GEMINI_API_KEY'] ?? 'AIzaSyBd-CXnJYyIwGXm9e4qQhz3RprnFPGww5U';
+  }
+
   // Analyze a report file using Google AI Studio Gemini API
   @override
   Future<Map<String, dynamic>> analyzeReport(PlatformFile file) async {
     try {
-      // Real Gemini API integration (Google AI Studio)
-      final apiKey = dotenv.env['GEMINI_API_KEY'] ?? 'AIzaSyBd-CXnJYyIwGXm9e4qQhz3RprnFPGww5U';
-      const endpoint = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash-001:generateContent';
-
       // Read file as bytes and encode to base64 (for small PDFs)
       // final fileBytes = await file.readStream?.toList();
       // Handle file reading based on platform
@@ -240,5 +244,57 @@ class GeminiService implements ReportService {
         await prefs.setString('reports', reportsJson);
       },
     );
+  }
+
+  @override
+  Future<List<String>> generateTips(String prompt) async {
+    try {
+      final response = await _dio.post(
+        endpoint,
+        data: {
+          'contents': [
+            {
+              'role': 'user',
+              'parts': [
+                {'text': prompt},
+              ],
+            },
+          ],
+        },
+        queryParameters: {'key': apiKey},
+      );
+
+      // Parse response
+      final geminiData = response.data['candidates']?[0]['content']['parts'][0]['text'];
+      if (geminiData == null) {
+        throw Exception('Invalid API response format: geminiData is null');
+      }
+
+      final candidates = response.data['candidates'] as List?;
+      if (candidates == null || candidates.isEmpty) {
+        throw Exception('No candidates found in Gemini API response.');
+      }
+
+      final content = candidates[0]['content']['parts'][0]['text'] as String?;
+      if (content == null) {
+        throw Exception('No content found in Gemini API response.');
+      }
+
+      // Parse the response into a list of tips
+      final tips = content
+          .split('\n')
+          .where((line) => line.trim().isNotEmpty && line.trim().startsWith('-'))
+          .map((line) {
+        // Remove the "-   " prefix and trim
+        String cleaned = line.trim().replaceFirst(RegExp(r'^-\s*'), '');
+        // Remove the "**Title:**" formatting (e.g., "**Increase Iron Intake:**")
+        cleaned = cleaned.replaceFirst(RegExp(r'^\*\*[^\:]+:\*\*\s*'), '');
+        return cleaned.trim();
+      }).toList();
+
+      return tips;
+    } catch (e) {
+      throw Exception('Error calling Gemini API: $e');
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'package:my_medical_report_summry/blocs/report/report_event.dart';
 import 'package:my_medical_report_summry/blocs/report/report_state.dart';
 import 'package:my_medical_report_summry/constants.dart';
 import 'package:my_medical_report_summry/screens/graph_screen.dart';
+import 'package:my_medical_report_summry/screens/tips_screen.dart';
 import 'package:my_medical_report_summry/screens/upload_report_screen.dart';
 
 // Home screen displaying reports and an upload button
@@ -39,6 +40,34 @@ class HomeScreen extends StatelessWidget {
                       create: (context) => GraphCubit()..loadGraphData(state.reports),
                       child: GraphScreen(),
                     ),
+                  ),
+                );
+              } else {
+                // Show a message if reports aren't loaded
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Please wait for reports to load.'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }
+            },
+          ),
+          // Tips Icon
+          IconButton(
+            icon: const Icon(
+              Icons.lightbulb_outline,
+              color: Colors.white,
+              size: 28,
+            ),
+            onPressed: () {
+              // Navigate to TipsScreen with all reports
+              final state = context.read<ReportBloc>().state;
+              if (state is ReportsLoaded) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TipsScreen(reports: state.reports),
                   ),
                 );
               } else {
