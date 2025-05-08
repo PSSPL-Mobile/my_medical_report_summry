@@ -41,7 +41,7 @@ class UploadReportScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Upload a PDF or Image',
+                    'Upload a PDF',
                     style: TextStyle(fontSize: 18),
                   ),
                   const SizedBox(height: 16),
@@ -49,7 +49,7 @@ class UploadReportScreen extends StatelessWidget {
                     onPressed: () async {
                       final result = await FilePicker.platform.pickFiles(
                         type: FileType.custom,
-                        allowedExtensions: ['pdf', 'jpg', 'png'],
+                        allowedExtensions: ['pdf'],
                       );
                       if (result != null && result.files.isNotEmpty) {
                         context.read<UploadCubit>().uploadReport(result.files.first);

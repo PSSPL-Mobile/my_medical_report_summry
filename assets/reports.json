@@ -4,9 +4,9 @@
     "title": "Blood Test - Jan 2024",
     "summary": "Normal blood count, slightly elevated white blood cells.",
     "suggestions": "Monitor for infections, stay hydrated.",
-    "date": "2024-01-15",
+    "date": "2025-01-15",
     "metrics": {
-      "hemoglobin": "13.5",
+      "hemoglobin": "6.0 g/dL",
       "wbc_count": "8.2"
     }
   },
@@ -15,9 +15,9 @@
     "title": "Lipid Profile - Feb 2024",
     "summary": "High LDL cholesterol and triglycerides.",
     "suggestions": "Adopt a low-fat diet, exercise regularly.",
-    "date": "2024-02-10",
+    "date": "2025-02-10",
     "metrics": {
-      "hemoglobin": "13.7",
+      "hemoglobin": "13.7 g/dL",
       "ldl_cholesterol": "150",
       "triglycerides": "200"
     }
@@ -27,9 +27,9 @@
     "title": "Blood Pressure Check - Mar 2024",
     "summary": "Blood pressure in pre-hypertension range.",
     "suggestions": "Reduce salt intake, practice stress management.",
-    "date": "2024-03-05",
+    "date": "2025-03-05",
     "metrics": {
-      "hemoglobin": "13.4",
+      "hemoglobin": "13.4 g/dL",
       "systolic_bp": "135",
       "diastolic_bp": "85"
     }
@@ -39,9 +39,9 @@
     "title": "Blood Sugar Test - Apr 2024",
     "summary": "Fasting glucose slightly above normal.",
     "suggestions": "Limit sugar intake, consult a diabetologist.",
-    "date": "2024-04-12",
+    "date": "2025-04-12",
     "metrics": {
-      "hemoglobin": "13.6",
+      "hemoglobin": "9.0 g/dL",
       "fasting_glucose": "110"
     }
   },
@@ -50,9 +50,9 @@
     "title": "Thyroid Function Test - May 2024",
     "summary": "TSH levels slightly high, indicating hypothyroidism.",
     "suggestions": "Consult an endocrinologist, consider medication.",
-    "date": "2024-05-20",
+    "date": "2025-05-20",
     "metrics": {
-      "hemoglobin": "13.2",
+      "hemoglobin": "13.2 g/dL",
       "tsh": "5.5"
     }
   },
@@ -61,9 +61,9 @@
     "title": "Kidney Function Test - Jun 2024",
     "summary": "Creatinine levels normal, good kidney function.",
     "suggestions": "Maintain hydration, avoid excessive protein.",
-    "date": "2024-06-15",
+    "date": "2025-06-15",
     "metrics": {
-      "hemAlgebra": "13.5",
+      "hemoglobin": "10.0 g/dL",
       "creatinine": "0.9"
     }
   },
@@ -72,9 +72,9 @@
     "title": "Liver Function Test - Jul 2024",
     "summary": "Elevated ALT levels, possible liver stress.",
     "suggestions": "Avoid alcohol, consult a hepatologist.",
-    "date": "2024-07-10",
+    "date": "2025-07-10",
     "metrics": {
-      "hemoglobin": "13.8",
+      "hemoglobin": "13.8 g/dL",
       "alt": "60"
     }
   },
@@ -83,9 +83,9 @@
     "title": "Complete Blood Count - Aug 2024",
     "summary": "All parameters within normal range.",
     "suggestions": "Continue regular health checkups.",
-    "date": "2024-08-05",
+    "date": "2025-08-05",
     "metrics": {
-      "hemoglobin": "13.6",
+      "hemoglobin": "13.6 g/dL",
       "rbc_count": "4.8"
     }
   },
@@ -94,9 +94,9 @@
     "title": "Vitamin D Test - Sep 2024",
     "summary": "Low vitamin D levels detected.",
     "suggestions": "Increase sun exposure, take vitamin D supplements.",
-    "date": "2024-09-12",
+    "date": "2025-09-12",
     "metrics": {
-      "hemoglobin": "13.4",
+      "hemoglobin": "13.4 g/dL",
       "vitamin_d": "20"
     }
   },
@@ -105,9 +105,9 @@
     "title": "Blood Pressure Monitoring - Oct 2024",
     "summary": "Blood pressure stabilized in normal range.",
     "suggestions": "Maintain current lifestyle, monitor weekly.",
-    "date": "2024-10-08",
+    "date": "2025-10-08",
     "metrics": {
-      "hemoglobin": "13.7",
+      "hemoglobin": "16.5 g/dL",
       "systolic_bp": "120",
       "diastolic_bp": "80"
     }
@@ -117,9 +117,9 @@
     "title": "Blood Sugar Test - Nov 2024",
     "summary": "HbA1c indicates good glucose control.",
     "suggestions": "Continue balanced diet, regular exercise.",
-    "date": "2024-11-15",
+    "date": "2025-11-15",
     "metrics": {
-      "hemoglobin": "13.5",
+      "hemoglobin": "19.5 g/dL",
       "hba1c": "5.8"
     }
   },
@@ -128,9 +128,9 @@
     "title": "Thyroid Check - Dec 2024",
     "summary": "T3 and T4 levels normal, TSH slightly elevated.",
     "suggestions": "Repeat test in 3 months, consult doctor.",
-    "date": "2024-12-20",
+    "date": "2025-12-20",
     "metrics": {
-      "hemoglobin": "13.3",
+      "hemoglobin": "17.6 g/dL",
       "tsh": "4.8"
     }
   },
@@ -141,7 +141,7 @@
     "suggestions": "Increase healthy fats, continue exercise.",
     "date": "2025-01-10",
     "metrics": {
-      "hemoglobin": "13.6",
+      "hemoglobin": "7.0 g/dL",
       "hdl_cholesterol": "35",
       "ldl_cholesterol": "100"
     }
@@ -151,9 +151,9 @@
     "title": "Kidney Function Test - Jan 2025",
     "summary": "Normal kidney markers, good hydration status.",
     "suggestions": "Maintain fluid intake, avoid NSAIDs.",
-    "date": "2025-01-15",
+    "date": "2025-02-15",
     "metrics": {
-      "hemoglobin": "13.5",
+      "hemoglobin": "13.5 g/dL",
       "creatinine": "0.8"
     }
   },
@@ -162,9 +162,9 @@
     "title": "Blood Test - Jan 2025",
     "summary": "Slightly low iron levels, normal other parameters.",
     "suggestions": "Include iron-rich foods, consider supplements.",
-    "date": "2025-01-20",
+    "date": "2025-03-20",
     "metrics": {
-      "hemoglobin": "13.4",
+      "hemoglobin": "13.4 g/dL",
       "serum_iron": "60"
     }
   }

@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => BlocProvider(
                       create: (context) => GraphCubit()..loadGraphData(state.reports),
-                      child: const GraphScreen(),
+                      child: GraphScreen(),
                     ),
                   ),
                 );
@@ -67,6 +67,8 @@ class HomeScreen extends StatelessWidget {
               itemCount: state.reports.length,
               itemBuilder: (context, index) {
                 final report = state.reports[index];
+                // Calculate reverse index for the report number
+                final reverseIndex = state.reports.length - index;
                 return Card(
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: Padding(
@@ -74,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Report ${index + 1}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        Text('Report $reverseIndex', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                         /*const SizedBox(height: 8),
                         Text('Summary: ${report.summary}'),
                         const SizedBox(height: 8),

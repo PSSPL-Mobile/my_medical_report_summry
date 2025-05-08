@@ -181,19 +181,27 @@ class GeminiService implements ReportService {
   }
 
   // Load static reports from JSON
-  @override
   Future<List<Report>> loadReports() async {
     final String jsonString = await rootBundle.loadString('assets/reports.json');
     final List<dynamic> jsonData = jsonDecode(jsonString);
     var filterReportList = jsonData.map((json) => Report.fromJson(json)).toList();
-    await loadReportsFromPrefs().then(
-      (value) {
-        if (value != null) {
-          filterReportList.addAll(value);
-        }
-      },
-    );
-    return filterReportList;
+
+    // Wait for shared preferences reports and add them
+    final prefsReports = await loadReportsFromPrefs();
+    if (prefsReports != null) {
+      filterReportList.addAll(prefsReports);
+    }
+
+    // Log the list before reversing
+    print('Before reversing: ${filterReportList.map((report) => report.date).toList()}');
+
+    // Reverse the list
+    final reversedList = filterReportList.reversed.toList();
+
+    // Log the list after reversing
+    print('After reversing: ${reversedList.map((report) => report.date).toList()}');
+
+    return reversedList;
   }
 
   // Add a new report (in-memory for POC)
