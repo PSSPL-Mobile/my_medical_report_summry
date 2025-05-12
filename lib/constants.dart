@@ -1,7 +1,7 @@
 // App-wide constants for consistent styling and theming across the app.
 import 'package:flutter/material.dart';
 
-/// Name : TipsScreen
+/// Name : AppConstants
 /// Author : Prakash Software Pvt Ltd
 /// Date : 02 May 2025
 /// Desc : Defines static constants for colors, padding, and other styling properties.

@@ -2,7 +2,7 @@ import 'package:file_picker/file_picker.dart';
 
 import '../models/report.dart';
 
-/// Name : TipsScreen
+/// Name : ReportService
 /// Author : Prakash Software Pvt Ltd
 /// Date : 02 May 2025
 /// Desc : Abstract class defining the contract for report-related services.Provides methods for analyzing, loading, saving, and generating tips from reports.

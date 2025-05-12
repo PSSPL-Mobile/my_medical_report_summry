@@ -10,7 +10,7 @@ import 'package:my_medical_report_summry/models/report.dart';
 import 'package:my_medical_report_summry/services/report_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Name : TipsScreen
+/// Name : GeminiService
 /// Author : Prakash Software Pvt Ltd
 /// Date : 02 May 2025
 /// Desc : Gemini AI service for analyzing medical reports.
