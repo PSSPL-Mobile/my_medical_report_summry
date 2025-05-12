@@ -61,3 +61,4 @@
 
 ## **Screenshots**:
    ![Patient Report Summary POC](assets/Dashboard_1.png)
+   ![Patient Report Summary POC](assets/Dashboard_2.png)
