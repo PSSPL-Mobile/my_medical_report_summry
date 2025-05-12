@@ -6,7 +6,7 @@ import 'package:my_medical_report_summry/services/gemini_service.dart';
 
 import 'blocs/home_bloc.dart';
 
-/// Name : TipsScreen
+/// Name : main.dart
 /// Author : Prakash Software Pvt Ltd
 /// Date : 02 May 2025
 /// Desc : Initializes the app and loads environment variables before running.
