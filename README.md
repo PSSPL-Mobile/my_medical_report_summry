@@ -60,4 +60,4 @@
       ```
 
 ## **Screenshots**:
-   ![Patient Report Summary POC](assets/My_Medical_Report_A.png)
+   ![Patient Report Summary POC](assets/Dashboard_1.png)
