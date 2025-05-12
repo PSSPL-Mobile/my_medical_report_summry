@@ -1,91 +1,87 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_medical_report_summry/blocs/report/report_state.dart';
-import 'package:my_medical_report_summry/blocs/tips/tips_cubit.dart';
-import 'package:my_medical_report_summry/blocs/tips/tips_state.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:my_medical_report_summry/constants.dart';
 
-import '../models/report.dart';
-import '../services/gemini_service.dart';
-
+/// Name : TipsScreen
+/// Author : Prakash Software Pvt Ltd
+/// Date : 02 May 2025
+/// Desc : Displays a list of personalized health tips with a header and icon-marked cards.
 class TipsScreen extends StatelessWidget {
-  final List<Report> reports;
+  final List<String> tips; // List of health tip strings to display.
 
-  const TipsScreen({super.key, required this.reports});
+  const TipsScreen({super.key, required this.tips});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => TipsCubit(GeminiService()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Health Tips'),
-          backgroundColor: AppConstants.primaryColor,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(AppConstants.padding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    // Section: Main Layout
+    // Builds a column with a header and a list of tips.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Section: Header
+        // Displays the "Personalized Health Tips" title with an icon.
+        const Padding(
+          padding: EdgeInsets.only(left: 4, bottom: 8),
+          child: Row(
             children: [
-              const Text(
+              Icon(Icons.favorite, color: Colors.lightGreen),
+              SizedBox(width: 8),
+              Text(
                 'Personalized Health Tips',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              BlocBuilder<TipsCubit, TipsState>(
-                builder: (context, state) {
-                  if (state is TipsLoading) {
-                    // Trigger fetching tips when the screen is first built
-                    context.read<TipsCubit>().fetchTips(reports);
-                  }
-                  if (state is TipsLoading) {
-                    return Expanded(child: const Center(child: CircularProgressIndicator()));
-                  } else if (state is TipsLoaded) {
-                    final tips = state.tips;
-                    if (tips.isEmpty) {
-                      return const Center(child: Text('No tips available.'));
-                    }
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: tips.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            elevation: 2,
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Icon(
-                                    Icons.check_circle,
-                                    color: Colors.green,
-                                    size: 24,
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Text(
-                                      tips[index],
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  } else if (state is TipsError) {
-                    return Center(child: Text('Error: ${state.message}'));
-                  }
-                  return const Center(child: Text('No tips available.'));
-                },
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
             ],
           ),
         ),
-      ),
+
+        // Section: Tips List
+        // Displays each tip in a card with an SVG icon and text.
+        ListView.builder(
+          shrinkWrap: true, // Ensure the ListView takes only the space it needs.
+          physics: const NeverScrollableScrollPhysics(), // Disable scrolling to prevent nested scroll issues.
+          itemCount: tips.length,
+          itemBuilder: (context, index) {
+            return Card(
+              color: AppConstants.tipCardColor, // Soft background color for the tip card (e.g., soft mint blue).
+              margin: const EdgeInsets.symmetric(vertical: 6), // Vertical spacing between cards.
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12), // Rounded corners for a softer look.
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // SVG icon to mark each tip.
+                    Container(
+                      margin: const EdgeInsets.only(top: 5), // Align the icon vertically with the text.
+                      child: SvgPicture.asset(
+                        'assets/icons/icon_mark.svg',
+                        width: 15,
+                        height: 15,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    // Tip text, expanded to fill available space.
+                    Expanded(
+                      child: Text(
+                        tips[index],
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

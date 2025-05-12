@@ -40,6 +40,7 @@ dependencies:
   json_annotation: ^4.9.0
   flutter_dotenv: ^5.2.1 # Added for environment variables
   shared_preferences: ^2.2.2 # Added for persistent storage
+  flutter_svg: ^2.0.7  # Use latest compatible version
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -102,4 +103,5 @@ flutter:
   assets:
     - assets/reports.json
     - assets/.env
+    - assets/icons/
 

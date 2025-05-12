@@ -1,18 +1,22 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:my_medical_report_summry/blocs/graph/graph_cubit.dart';
 import 'package:my_medical_report_summry/constants.dart';
 
-// Screen to display a graph of hemoglobin for the current year
+/// Name : GraphScreen
+/// Author : Prakash Software Pvt Ltd
+/// Date : 02 May 2025
+/// Desc : Displays a line chart showing hemoglobin trends over months with a color-coded dot guide.
 class GraphScreen extends StatelessWidget {
-  GraphScreen({super.key});
+  final List<Map<String, dynamic>> hemoglobinData; // List of hemoglobin data points with month, value, and count.
 
-  // List of month abbreviations for x-axis labels
+  GraphScreen(this.hemoglobinData, {super.key});
+
+  // List of month abbreviations for x-axis labels.
   final List<String> monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  // Helper function to determine the color based on hemoglobin value
+  // Determines the color of a dot based on the hemoglobin value.
+  // Returns Colors.lightGreen for 16.0-20.0, Colors.blue for 12.0-15.9, and Colors.red for other values.
   Color getColorForValue(double value) {
     if (value >= 16.0 && value <= 20.0) {
       return Colors.lightGreen;
@@ -25,191 +29,182 @@ class GraphScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get the current year dynamically (same as in GraphCubit)
+    // Get the current year for display in the "no data" message.
     final currentYear = DateFormat('yyyy').format(DateTime.now());
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Hemoglobin Graph'),
-        backgroundColor: AppConstants.primaryColor,
-      ),
-      body: BlocBuilder<GraphCubit, GraphState>(
-        builder: (context, state) {
-          if (state is GraphLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is GraphLoaded) {
-            final hemoglobinData = state.hemoglobinData;
+    // Section: Main Layout
+    // Builds a column with the chart title, the line chart, and the dot color guide.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Section: Chart Title
+        // Displays the "Hemoglobin Trend" title with an icon.
+        Container(
+          color: AppConstants.sectionColor,
+          padding: const EdgeInsets.only(top: 10, left: 15),
+          child: Row(
+            children: [
+              const Icon(Icons.show_chart, color: Colors.red),
+              const SizedBox(width: 8),
+              Text(
+                'Hemoglobin Trend',
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+        ),
 
-            if (hemoglobinData.isEmpty) {
-              return Center(child: Text('No hemoglobin data available for $currentYear.'));
-            }
+        // Section: No Data Message
+        // Shows a message if there’s no hemoglobin data for the current year.
+        if (hemoglobinData.isEmpty) Center(child: Text('No hemoglobin data available for $currentYear.')),
 
-            // Determine the color based on the highest hemoglobin value (excluding zeros)
-            final nonZeroValues =
-                hemoglobinData.map((data) => data['value'] as double).where((value) => value > 0).toList();
-            final highestValue = nonZeroValues.isNotEmpty ? nonZeroValues.reduce((a, b) => a > b ? a : b) : 0.0;
-            final lineColor = getColorForValue(highestValue);
-
-            return Padding(
-              padding: const EdgeInsets.all(AppConstants.padding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Hemoglobin $currentYear',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    height: 300,
-                    child: LineChart(
-                      LineChartData(
-                        gridData: const FlGridData(show: true),
-                        titlesData: FlTitlesData(
-                          leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 40,
-                              getTitlesWidget: (value, meta) {
-                                // Only show labels within the range 5 to 20
-                                if (value < 5 || value > 20) return const Text('');
-                                return Text(
-                                  '${value.toInt()} g/dL',
-                                  style: const TextStyle(fontSize: 12),
-                                );
-                              },
-                              interval: 5, // Show labels at intervals of 5 (5, 10, 15, 20)
-                            ),
-                          ),
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              getTitlesWidget: (value, meta) {
-                                final monthIndex = value.toInt() - 1; // 0-based index for monthLabels
-                                if (monthIndex < 0 || monthIndex >= monthLabels.length) {
-                                  return const Text('');
-                                }
-                                return Text(
-                                  monthLabels[monthIndex],
-                                  style: const TextStyle(fontSize: 12),
-                                );
-                              },
-                            ),
-                          ),
-                          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                        ),
-                        borderData: FlBorderData(show: true),
-                        minX: 1,
-                        maxX: 12,
-                        // Months in a year (Jan to Dec)
-                        minY: 5,
-                        // Fixed minimum Y value
-                        maxY: 20,
-                        // Fixed maximum Y value
-                        lineTouchData: LineTouchData(
-                          enabled: true,
-                          touchTooltipData: LineTouchTooltipData(
-                            getTooltipItems: (List<LineBarSpot> touchedSpots) {
-                              return touchedSpots.map((spot) {
-                                final monthIndex = spot.x.toInt() - 1;
-                                final month = monthLabels[monthIndex];
-                                final value = spot.y;
-                                final count = hemoglobinData[monthIndex]['count'] as int;
-                                return LineTooltipItem(
-                                  '$month: ${value.toStringAsFixed(1)} g/dL\nReports: $count',
-                                  const TextStyle(color: Colors.white, fontSize: 12),
-                                );
-                              }).toList();
-                            },
-                          ),
-                        ),
-                        lineBarsData: [
-                          LineChartBarData(
-                            spots: hemoglobinData.map((data) {
-                              final month = data['month'] as double;
-                              final value = data['value'] as double;
-                              return FlSpot(month, value < 5 ? 5 : value); // Clamp values below 5 to 5 for visibility
-                            }).toList(),
-                            isCurved: true,
-                            color: Colors.red,
-                            dotData: FlDotData(
-                              show: true,
-                              getDotPainter: (spot, percent, barData, index) {
-                                // Color the dot based on its hemoglobin value (spot.y)
-                                final dotColor = getColorForValue(spot.y);
-                                return FlDotCirclePainter(
-                                  radius: 4,
-                                  color: dotColor,
-                                  strokeWidth: 2,
-                                  strokeColor: Colors.white,
-                                );
-                              },
-                            ),
-                            belowBarData: BarAreaData(show: false),
-                          ),
-                        ],
-                      ),
+        // Section: Line Chart
+        // Displays the hemoglobin trend as a line chart if data is available.
+        if (hemoglobinData.isNotEmpty)
+          Container(
+            height: 280,
+            color: AppConstants.sectionColor,
+            padding: const EdgeInsets.fromLTRB(15, 15, 20, 10),
+            child: LineChart(
+              LineChartData(
+                gridData: const FlGridData(show: true), // Enable grid lines for better readability.
+                titlesData: FlTitlesData(
+                  // Configure left axis (y-axis) to show hemoglobin values in g/dL.
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 42, // Space for y-axis labels.
+                      interval: 5, // Show labels at intervals of 5 g/dL.
+                      getTitlesWidget: (value, _) {
+                        if (value < 5 || value > 20) return const Text(''); // Hide labels outside the 5-20 range.
+                        return Text('${value.toInt()} g/dL', style: const TextStyle(fontSize: 11));
+                      },
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  // Legend
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Dot Color Guide:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 16,
-                            height: 16,
-                            color: Colors.lightGreen,
-                          ),
-                          const SizedBox(width: 8),
-                          const Text('16.0–20.0 g/dL'),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 16,
-                            height: 16,
-                            color: Colors.blue,
-                          ),
-                          const SizedBox(width: 8),
-                          const Text('12.0–15.9 g/dL'),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 16,
-                            height: 16,
-                            color: Colors.red,
-                          ),
-                          const SizedBox(width: 8),
-                          const Text('Other'),
-                        ],
-                      ),
-                    ],
+                  // Configure bottom axis (x-axis) to show month labels.
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, _) {
+                        final index = value.toInt() - 1;
+                        if (index < 0 || index >= monthLabels.length) return const Text(''); // Hide invalid months.
+                        return Text(monthLabels[index], style: const TextStyle(fontSize: 11));
+                      },
+                    ),
+                  ),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)), // Hide right axis.
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)), // Hide top axis.
+                ),
+                borderData: FlBorderData(show: true), // Show chart borders.
+                minX: 1, // Start x-axis at 1 (January).
+                maxX: 12, // End x-axis at 12 (December).
+                minY: 5, // Start y-axis at 5 g/dL.
+                maxY: 20, // End y-axis at 20 g/dL.
+                lineTouchData: LineTouchData(
+                  enabled: true, // Enable touch interactions.
+                  touchTooltipData: LineTouchTooltipData(
+                    // Configure tooltip content to show month, hemoglobin value, and report count.
+                    getTooltipItems: (List<LineBarSpot> touchedSpots) {
+                      return touchedSpots.map((spot) {
+                        final index = spot.x.toInt() - 1;
+                        final month = monthLabels[index];
+                        final value = spot.y;
+                        final count = hemoglobinData[index]['count'] as int;
+                        return LineTooltipItem(
+                          '$month: ${value.toStringAsFixed(1)} g/dL\nReports: $count',
+                          const TextStyle(color: Colors.white, fontSize: 12),
+                        );
+                      }).toList();
+                    },
+                  ),
+                ),
+                lineBarsData: [
+                  LineChartBarData(
+                    // Map hemoglobin data to chart points (month vs. value).
+                    spots: hemoglobinData.map((data) {
+                      final x = data['month'] as double;
+                      final y = data['value'] as double;
+                      return FlSpot(x, y < 5 ? 5 : y); // Ensure y-value is at least 5.
+                    }).toList(),
+                    isCurved: true, // Smooth the line with curves.
+                    color: AppConstants.graphLineColor, // Use custom color for the line.
+                    dotData: FlDotData(
+                      show: true, // Show dots at data points.
+                      getDotPainter: (spot, _, __, ___) {
+                        final dotColor = getColorForValue(spot.y);
+                        return FlDotCirclePainter(
+                          radius: 4,
+                          color: dotColor,
+                          strokeWidth: 2,
+                          strokeColor: Colors.white,
+                        );
+                      },
+                    ),
+                    belowBarData: BarAreaData(show: false), // Disable area fill below the line.
                   ),
                 ],
               ),
-            );
-          } else if (state is GraphError) {
-            return Center(child: Text('Error: ${state.message}'));
-          }
-          return const Center(child: Text('No graph data available.'));
-        },
-      ),
+            ),
+          ),
+
+        const SizedBox(height: 15),
+
+        // Section: Dot Color Guide
+        // Displays a legend explaining the color coding of the chart dots.
+        Container(
+          color: AppConstants.sectionColor,
+          padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  'Dot Color Guide:',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Row(
+                  children: [
+                    _colorLegendRow(Colors.lightGreen, '16.0–20.0 g/dL'),
+                    const SizedBox(width: 10),
+                    _colorLegendRow(Colors.blue, '12.0–15.9 g/dL'),
+                    const SizedBox(width: 10),
+                    _colorLegendRow(Colors.red, 'Other'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Builds a row for the dot color guide, showing a colored square and its label.
+  Widget _colorLegendRow(Color color, String label) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 16,
+          height: 16,
+          decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(4)),
+        ),
+        const SizedBox(width: 8),
+        Padding(padding: const EdgeInsets.fromLTRB(0, 5, 0, 5), child: Text(label)),
+      ],
     );
   }
 }

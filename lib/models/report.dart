@@ -2,7 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'report.g.dart';
 
-// Model for a medical report
+/// Name : Report
+/// Author : Prakash Software Pvt Ltd
+/// Date : 02 May 2025
+/// Desc : Model for a medical report.
 @JsonSerializable()
 class Report {
   final int id;

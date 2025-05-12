@@ -6,12 +6,14 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:intl/intl.dart';
 import 'package:my_medical_report_summry/models/report.dart';
 import 'package:my_medical_report_summry/services/report_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Gemini AI service for analyzing medical reports
+/// Name : TipsScreen
+/// Author : Prakash Software Pvt Ltd
+/// Date : 02 May 2025
+/// Desc : Gemini AI service for analyzing medical reports.
 class GeminiService implements ReportService {
   final Dio _dio = Dio();
 
@@ -159,16 +161,12 @@ class GeminiService implements ReportService {
         },
       );
 
-      // Format date to dd/MM/yyyy
-      final dateFormatter = DateFormat('yyyy-MM-dd');
-      String formattedDate = dateFormatter.format(DateTime.now());
-
       return {
         'id': id! + 2,
         'summary': summaryMatch?.group(1)?.trim() ?? 'Analysis of ${file.name}: All levels normal.',
         'title': summaryMatch?.group(1)?.trim() ?? 'Analysis of ${file.name}',
         'suggestions': suggestionsMatch?.group(1)?.trim() ?? 'Continue healthy lifestyle.',
-        'date': /*date*/ formattedDate,
+        'date': date,
         'metrics': metrics
       };
     } catch (e) {
@@ -185,6 +183,7 @@ class GeminiService implements ReportService {
   }
 
   // Load static reports from JSON
+  @override
   Future<List<Report>> loadReports() async {
     final String jsonString = await rootBundle.loadString('assets/reports.json');
     final List<dynamic> jsonData = jsonDecode(jsonString);
@@ -197,13 +196,17 @@ class GeminiService implements ReportService {
     }
 
     // Log the list before reversing
-    print('Before reversing: ${filterReportList.map((report) => report.date).toList()}');
+    if (kDebugMode) {
+      print('Before reversing: ${filterReportList.map((report) => report.date).toList()}');
+    }
 
     // Reverse the list
     final reversedList = filterReportList.reversed.toList();
 
     // Log the list after reversing
-    print('After reversing: ${reversedList.map((report) => report.date).toList()}');
+    if (kDebugMode) {
+      print('After reversing: ${reversedList.map((report) => report.date).toList()}');
+    }
 
     return reversedList;
   }
@@ -281,14 +284,12 @@ class GeminiService implements ReportService {
       }
 
       // Parse the response into a list of tips
-      final tips = content
-          .split('\n')
-          .where((line) => line.trim().isNotEmpty && line.trim().startsWith('-'))
-          .map((line) {
+      final tips =
+          content.split('\n').where((line) => line.trim().isNotEmpty && line.trim().startsWith('-')).map((line) {
         // Remove the "-   " prefix and trim
         String cleaned = line.trim().replaceFirst(RegExp(r'^-\s*'), '');
         // Remove the "**Title:**" formatting (e.g., "**Increase Iron Intake:**")
-        cleaned = cleaned.replaceFirst(RegExp(r'^\*\*[^\:]+:\*\*\s*'), '');
+        cleaned = cleaned.replaceFirst(RegExp(r'^\*\*[^:]+:\*\*\s*'), '');
         return cleaned.trim();
       }).toList();
 
