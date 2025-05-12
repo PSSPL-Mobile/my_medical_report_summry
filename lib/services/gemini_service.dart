@@ -22,7 +22,7 @@ class GeminiService implements ReportService {
 
   GeminiService() {
     // Real Gemini API integration (Google AI Studio)
-    apiKey = dotenv.env['GEMINI_API_KEY'] ?? 'AIzaSyBd-CXnJYyIwGXm9e4qQhz3RprnFPGww5U';
+    apiKey = dotenv.env['GEMINI_API_KEY'] ?? 'STATIC-KEY';
   }
 
   // Analyze a report file using Google AI Studio Gemini API
