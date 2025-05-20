@@ -8,7 +8,7 @@ import 'package:my_medical_report_summry/constants.dart';
 /// Date : 02 May 2025
 /// Desc : Displays a line chart showing hemoglobin trends over months with a color-coded dot guide.
 class GraphScreen extends StatelessWidget {
-  final List<Map<String, dynamic>> hemoglobinData; // List of hemoglobin data points with month, value, and count.
+  final List<Map<String, dynamic>> hemoglobinData; // List of hemoglobin data points with month, value, and date.
 
   GraphScreen(this.hemoglobinData, {super.key});
 
@@ -106,15 +106,19 @@ class GraphScreen extends StatelessWidget {
                 lineTouchData: LineTouchData(
                   enabled: true, // Enable touch interactions.
                   touchTooltipData: LineTouchTooltipData(
-                    // Configure tooltip content to show month, hemoglobin value, and report count.
+                    tooltipHorizontalAlignment: FLHorizontalAlignment.left,
+                    maxContentWidth: 60,
+                    // Configure tooltip content to show month, hemoglobin value, and report date.
                     getTooltipItems: (List<LineBarSpot> touchedSpots) {
                       return touchedSpots.map((spot) {
                         final index = spot.x.toInt() - 1;
                         final month = monthLabels[index];
                         final value = spot.y;
-                        final count = hemoglobinData[index]['count'] as int;
+                        final date = hemoglobinData[index]['date'] as String;
+                        // Format the date if it exists, otherwise show "N/A".
+                        final formattedDate = date.isNotEmpty ? date : 'N/A';
                         return LineTooltipItem(
-                          '$month: ${value.toStringAsFixed(1)} g/dL\nReports: $count',
+                          '${value.toStringAsFixed(1)} g/dL\n$formattedDate',
                           const TextStyle(color: Colors.white, fontSize: 12),
                         );
                       }).toList();
@@ -150,13 +154,11 @@ class GraphScreen extends StatelessWidget {
             ),
           ),
 
-        const SizedBox(height: 15),
-
         // Section: Dot Color Guide
         // Displays a legend explaining the color coding of the chart dots.
         Container(
           color: AppConstants.sectionColor,
-          padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+          padding: EdgeInsets.fromLTRB(10, 5, 10, 15),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +166,7 @@ class GraphScreen extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4),
                 child: Text(
-                  'Dot Color Guide:',
+                  'Himoglobin Range Guide:',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.normal,
@@ -177,16 +179,16 @@ class GraphScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     _colorLegendRow(Colors.lightGreen, '16.0–20.0 g/dL'),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     _colorLegendRow(Colors.blue, '12.0–15.9 g/dL'),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     _colorLegendRow(Colors.red, 'Other'),
                   ],
                 ),
               ),
             ],
           ),
-        ),
+        )
       ],
     );
   }

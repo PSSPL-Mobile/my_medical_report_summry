@@ -1,4 +1,3 @@
-// Import necessary packages for file picking, UI, state management, date formatting, and app-specific models/services.
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,8 +52,8 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
     try {
       // Filter reports for the current year (2025).
       final currentYear = DateFormat('yyyy').format(DateTime.now());
-      // List to store hemoglobin values for each month (Jan-Dec).
-      final List<List<double>> monthlyValues = List.generate(12, (_) => <double>[]);
+      // List to store hemoglobin values and their dates for each month (Jan-Dec).
+      final List<List<Map<String, dynamic>>> monthlyData = List.generate(12, (_) => <Map<String, dynamic>>[]);
 
       // Process reports for the current year.
       for (var report in reports) {
@@ -69,19 +68,30 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
           var valueStr = report.metrics['hemoglobin'].toString();
           final numericMatch = RegExp(r'\d+(\.\d+)?').firstMatch(valueStr);
           var value = double.parse(numericMatch!.group(0)!);
-          monthlyValues[month - 1].add(value); // Add value to the corresponding month.
+          // Store both the hemoglobin value and the report date.
+          monthlyData[month - 1].add({'value': value, 'date': reportDate});
         }
       }
 
-      // Create graph data for each month with max value and report count.
+      // Create graph data for each month with max value and corresponding date.
       final List<Map<String, dynamic>> hemoglobinData = List.generate(12, (index) {
-        final values = monthlyValues[index];
+        final data = monthlyData[index];
         final month = (index + 1).toDouble(); // 1 for Jan, 12 for Dec.
-        final value = values.isNotEmpty ? values.reduce((a, b) => a > b ? a : b) : 0.0; // Use max value or 0.
+        if (data.isEmpty) {
+          return {
+            'value': 0.0,
+            'month': month,
+            'date': '', // No date if no data.
+          };
+        }
+        // Find the entry with the maximum hemoglobin value.
+        final maxEntry = data.reduce((a, b) => a['value'] > b['value'] ? a : b);
+        final maxValue = maxEntry['value'] as double;
+        final maxDate = maxEntry['date'] as String;
         return {
-          'value': value,
+          'value': maxValue,
           'month': month,
-          'count': values.length, // Number of reports for this month.
+          'date': maxDate, // Store the date of the max hemoglobin value.
         };
       });
 
